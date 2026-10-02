@@ -1,0 +1,50 @@
+<main>
+  <section>
+    <p class="eyebrow">Machine No. 01</p>
+    <h1>The Coffee <em>Machine</em></h1>
+
+    <h2>01 — Buy</h2>
+    <div class="menu">
+      @for (r of recipes; track r.id) {
+        <button class="drink" (click)="buy(r.id)">
+          <span class="mono muted">0{{ r.id }}</span>
+          <span class="name">{{ r.name }}</span>
+          <span class="price">${{ r.price }}</span>
+          <small class="mono muted">{{ r.water }} ml água · {{ r.milk }} ml leite · {{ r.beans }} g grãos</small>
+        </button>
+      }
+    </div>
+
+    <h2>02 — Fill</h2>
+    <form class="fill" (ngSubmit)="fill()">
+      <label>Água (ml)<input type="number" min="0" name="water" [(ngModel)]="refill.water" /></label>
+      <label>Leite (ml)<input type="number" min="0" name="milk" [(ngModel)]="refill.milk" /></label>
+      <label>Grãos (g)<input type="number" min="0" name="beans" [(ngModel)]="refill.coffeeBeans" /></label>
+      <label>Copos<input type="number" min="0" name="cups" [(ngModel)]="refill.cups" /></label>
+      <button class="primary">Fill</button>
+    </form>
+  </section>
+
+  <aside>
+    <h2>03 — Remaining</h2>
+    @if (stock) {
+      <ul class="stock mono">
+        <li><span>Água</span><span>{{ stock.water }} ml</span></li>
+        <li><span>Leite</span><span>{{ stock.milk }} ml</span></li>
+        <li><span>Grãos</span><span>{{ stock.coffeeBeans }} g</span></li>
+        <li><span>Copos</span><span>{{ stock.cups }}</span></li>
+      </ul>
+      <div class="cash">
+        <div><p class="mono muted">04 — Caixa</p><p class="money">${{ stock.money }}</p></div>
+        <button class="outline" (click)="take()">Take</button>
+      </div>
+    }
+
+    <p class="mono muted">Log</p>
+    <ul class="log mono">
+      @for (e of log; track $index) {
+        <li [class.err]="!e.ok"><span class="muted">{{ e.time }}</span> {{ e.message }}</li>
+      }
+    </ul>
+  </aside>
+</main>
